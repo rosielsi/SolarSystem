@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Shader Graphs_sun
-  m_Shader: {fileID: -6465566751694194690, guid: 309ad1f9ba7cfbe4ab1f46b625d9e52f,
+  m_Name: star
+  m_Shader: {fileID: -6465566751694194690, guid: beed9ca0626fea447b0ee3d71843a71c,
     type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
