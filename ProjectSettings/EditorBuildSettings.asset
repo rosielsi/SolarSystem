@@ -4,7 +4,13 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/GoogleVR/Demos/Scenes/solarsystemMenu.unity
+    guid: 71e68cfd03fb76e4f89bca6adca8b0b3
+  - enabled: 1
+    path: Assets/GoogleVR/Demos/Scenes/solarsystemv2.unity
+    guid: 97210acc6e7dc2947a0830670a961277
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 6e1e630552fd88a48a5109dfa031ad60,
       type: 2}
