@@ -8,8 +8,8 @@ public class btnSelectSound : MonoBehaviour
     public AudioClip hoverFx;
     public AudioClip clickFx;
 
-    public void HoverSound()
-    {
-        myFx.PlayOneShot(hoverFx);
+    public void HoverSound() {
+        myFx.PlayOneShot (hoverFx);
     }
+
 }
