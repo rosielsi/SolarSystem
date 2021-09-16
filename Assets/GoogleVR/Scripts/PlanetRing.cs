@@ -58,7 +58,7 @@ public class PlanetRing : MonoBehaviour {
 	}
 
 	void BuildRingMesh(){
-		//build ring mesh
+		
 		Vector3[] vertices = new Vector3[(segments + 1) * 2 * 2];
 		int[] triangles = new int[segments * 6 * 2];
 		Vector2[] uv = new Vector2[(segments + 1) * 2 * 2];
