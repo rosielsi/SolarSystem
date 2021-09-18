@@ -5,14 +5,13 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class PlanetRing : MonoBehaviour {
 
-	//manual settings
 	[Range(3,360)]
 	public int segments = 3;
 	public float innerRadius = 0.7f;
 	public float thickness = 0.5f;
 	public Material ringMat;
 
-	//cached references
+
 	GameObject ring;
 	Mesh ringMesh;
 	MeshFilter ringMF;
@@ -33,9 +32,8 @@ public class PlanetRing : MonoBehaviour {
 	}
 
 	void SetUpRing(){
-		//check if ring is null and there are no children
+	
 		if (ring == null && transform.childCount == 0) {
-			//create ring object
 			ring = new GameObject (name + " Ring");
 			ring.transform.parent = transform;
 			ring.transform.SetAsFirstSibling ();

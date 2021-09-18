@@ -1,36 +1,10 @@
-//-----------------------------------------------------------------------
-// <copyright file="GvrTrackedController.cs" company="Google Inc.">
-// Copyright 2017 Google Inc. All rights reserved.
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-// </copyright>
-//-----------------------------------------------------------------------
+
 
 using System.Collections;
 using Gvr.Internal;
 using UnityEngine;
 
-/// <summary>Represents an object tracked by controller input.</summary>
-/// <remarks>
-/// Manages the active status of the tracked controller based on controller connection status.
-/// <para>
-/// Fetches a `GvrControllerInputDevice` for the configured `GvrControllerHand` and propagates
-/// the device instance to all `IGvrControllerInputDeviceReceiver`s underneath this object on
-/// Start and if the controller handedness changes. If the controller is not positionally
-/// tracked, position of the object is updated to approximate arm mechanics by using a
-/// `GvrBaseArmModel`.  `GvrBaseArmModel`s are also propagated to all `IGvrArmModelReceiver`s
-/// underneath this object.
-/// </para></remarks>
+
 [HelpURL("https://developers.google.com/vr/reference/unity/class/GvrTrackedController")]
 public class GvrTrackedController : MonoBehaviour
 {
@@ -48,8 +22,6 @@ public class GvrTrackedController : MonoBehaviour
     [Tooltip("Controller Hand")]
     private GvrControllerHand controllerHand = GvrControllerHand.Dominant;
 
-    /// <summary>Gets the controller input device for this tracked object.</summary>
-    /// <value>The controller input device for this tracked object.</value>
     public GvrControllerInputDevice ControllerInputDevice
     {
         get
@@ -58,8 +30,6 @@ public class GvrTrackedController : MonoBehaviour
         }
     }
 
-    /// <summary>Gets or sets the controller hand used for this tracked object.</summary>
-    /// <value>The controller hand used for this tracked object.</value>
     public GvrControllerHand ControllerHand
     {
         get
@@ -77,15 +47,7 @@ public class GvrTrackedController : MonoBehaviour
         }
     }
 
-    /// <summary>Gets or sets an arm model.</summary>
-    /// <remarks>
-    /// Used to control the pose (position and rotation) of the object and to propagate to children
-    /// that implement `IGvrArmModelReceiver`.
-    /// </remarks>
-    /// <value>
-    /// An arm model used to control the pose (position and rotation) of the object, and to
-    /// propagate to children that implement `IGvrArmModelReceiver`.
-    /// </value>
+
     public GvrBaseArmModel ArmModel
     {
         get
@@ -106,14 +68,6 @@ public class GvrTrackedController : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Gets or sets a value indicating whether the object's active status is determined by the
-    /// controller connection status.
-    /// </summary>
-    /// <value>
-    /// Value `true` if the object's active status is determined by the controller connection
-    /// status, `false` otherwise.
-    /// </value>
     public bool IsDeactivatedWhenDisconnected
     {
         get
@@ -137,8 +91,6 @@ public class GvrTrackedController : MonoBehaviour
         }
     }
 
-    /// <summary>Propagates the arm model to all `IGvrArmModelReceiver`s.</summary>
-    /// <remarks>Should only called when ArmModel is instantiated or changed.</remarks>
     [SuppressMemoryAllocationError(
         IsWarning = false,
         Reason = "Only called when ArmModel is instantiated or changed.")]
@@ -156,7 +108,7 @@ public class GvrTrackedController : MonoBehaviour
 
     private void Awake()
     {
-        // Adding this event handler calls it immediately.
+ 
         GvrControllerInput.OnDevicesChanged += SetupControllerInputDevice;
     }
 
@@ -168,16 +120,12 @@ public class GvrTrackedController : MonoBehaviour
             Debug.LogWarning(controllerInputDevice.ErrorDetails);
         }
 
-        // Update the position using OnPostControllerInputUpdated.
-        // This way, the position and rotation will be correct for the entire frame
-        // so that it doesn't matter what order Updates get called in.
+
         GvrControllerInput.OnPostControllerInputUpdated += OnPostControllerInputUpdated;
 
-        // Force the pose to update immediately in case the controller isn't updated before the next
-        // time a frame is rendered.
+
         UpdatePose();
 
-        // Check the controller state immediately whenever this script is enabled.
         OnControllerStateChanged(controllerInputDevice.State, controllerInputDevice.State);
     }
 
@@ -222,8 +170,7 @@ public class GvrTrackedController : MonoBehaviour
 
     private void PropagateControllerInputDeviceToArmModel()
     {
-        // Propagate the controller input device to everything in the arm model's object's
-        // hierarchy in case it is not a child of the tracked controller.
+       
         if (armModel != null)
         {
             IGvrControllerInputDeviceReceiver[] receivers =
@@ -285,7 +232,6 @@ public class GvrTrackedController : MonoBehaviour
             return;
         }
 
-        // Disable arm model if the device supports 6DoF.
         if (controllerInputDevice.SupportsPositionalTracking)
         {
             transform.localPosition = controllerInputDevice.Position;
@@ -323,5 +269,5 @@ public class GvrTrackedController : MonoBehaviour
             }
         }
     }
-#endif  // UNITY_EDITOR
+#endif 
 }
