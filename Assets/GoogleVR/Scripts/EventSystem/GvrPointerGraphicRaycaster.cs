@@ -34,26 +34,24 @@ using UnityEngine.UI;
 [HelpURL("https://developers.google.com/vr/unity/reference/class/GvrPointerGraphicRaycaster")]
 public class GvrPointerGraphicRaycaster : GvrBasePointerRaycaster
 {
-    /// <summary>Flag for ignoring reversed graphics direction.</summary>
+ 
+
+
     public bool ignoreReversedGraphics = true;
-
-    /// <summary>The type of objects which can block raycasts.</summary>
     public BlockingObjects blockingObjects = BlockingObjects.ThreeD;
-
-    /// <summary>The blocking layer mask to use when raycasting.</summary>
     public LayerMask blockingMask = NO_EVENT_MASK_SET;
-
     private const int NO_EVENT_MASK_SET = -1;
-
     private static List<Graphic> sortedGraphics = new List<Graphic>();
-
     private Canvas targetCanvas;
     private List<Graphic> raycastResults = new List<Graphic>();
     private Camera cachedPointerEventCamera;
-
-    /// <summary>
     /// Initializes a new instance of the <see cref="GvrPointerGraphicRaycaster" /> class.
-    /// </summary>
+    private RaycastHit _hit;
+    public Image imagegaze;
+    public float toaltime = 2;
+    bool gvrstatus;
+    float gvrtimer;
+    public int distanceOfRay = 10;
     protected GvrPointerGraphicRaycaster()
     {
     }
@@ -61,21 +59,48 @@ public class GvrPointerGraphicRaycaster : GvrBasePointerRaycaster
     /// <summary>Types of blocking objects this object's raycasts can hit.</summary>
     public enum BlockingObjects
     {
-        /// <summary>This cannot hit any objects.</summary>
         None = 0,
 
-        /// <summary>This can hit only 2D objects.</summary>
         TwoD = 1,
 
-        /// <summary>This can hit only 3D objects.</summary>
         ThreeD = 2,
 
-        /// <summary>This can hit all objects.</summary>
+
         All = 3,
     }
 
-    /// <summary>Gets the event Camera used for gaze-based raycasts.</summary>
-    /// <value>The event camera.</value>
+    void Update()
+    {
+
+
+
+
+        Ray ray = Camera.main.ViewportPointToRay(new Vector3(.5f, .5f, 0f));
+
+        if (Physics.Raycast(ray, out _hit))
+        {
+   
+                _hit.transform.gameObject.GetComponent<teleport>().spacemanTravel();
+            
+        }
+
+    }
+    public void GRon()
+    {
+
+        gvrstatus = true;
+    }
+
+
+    public void GRoff()
+    {
+        gvrstatus = false;
+        gvrtimer = 0;
+        imagegaze.fillAmount = 0;
+    }
+
+
+
     [System.Diagnostics.CodeAnalysis.SuppressMessage(
         "UnityRules.LegacyGvrStyleRules",
         "VR1001:AccessibleNonConstantPropertiesMustBeUpperCamelCase",
@@ -127,14 +152,12 @@ public class GvrPointerGraphicRaycaster : GvrBasePointerRaycaster
         {
             return false;
         }
-
         if (targetCanvas.renderMode != RenderMode.WorldSpace)
         {
             Debug.LogError("GvrPointerGraphicRaycaster requires that the canvas renderMode is set "
                            + "to WorldSpace.");
             return false;
         }
-
         float hitDistance = float.MaxValue;
 
         if (blockingObjects != BlockingObjects.None)
@@ -149,7 +172,6 @@ public class GvrPointerGraphicRaycaster : GvrBasePointerRaycaster
                     hitDistance = hit.distance;
                 }
             }
-
             if (blockingObjects == BlockingObjects.TwoD || blockingObjects == BlockingObjects.All)
             {
                 RaycastHit2D hit = Physics2D.Raycast(pointerRay.ray.origin,
@@ -163,7 +185,6 @@ public class GvrPointerGraphicRaycaster : GvrBasePointerRaycaster
                 }
             }
         }
-
         raycastResults.Clear();
         Ray finalRay;
         Raycast(targetCanvas,
@@ -172,7 +193,6 @@ public class GvrPointerGraphicRaycaster : GvrBasePointerRaycaster
                 pointerRay.distance,
                 raycastResults,
                 out finalRay);
-
         bool foundHit = false;
 
         for (int index = 0; index < raycastResults.Count; index++)
@@ -181,28 +201,26 @@ public class GvrPointerGraphicRaycaster : GvrBasePointerRaycaster
             bool appendGraphic = true;
 
             if (ignoreReversedGraphics)
-            {
-                // If we have a camera compare the direction against the cameras forward.
+            {              
                 Vector3 cameraFoward = eventCamera.transform.rotation * Vector3.forward;
                 Vector3 dir = go.transform.rotation * Vector3.forward;
                 appendGraphic = Vector3.Dot(cameraFoward, dir) > 0;
             }
-
             if (appendGraphic)
             {
                 float resultDistance = 0;
-
                 Transform trans = go.transform;
                 Vector3 transForward = trans.forward;
-
-                // http://geomalgorithms.com/a06-_intersect-2.html
+                /* Gusto ko na ng massage :(
+                 Baka naman may marunong mag massage dyan joke HAHAHAHAH!
+                */
                 float transDot = Vector3.Dot(transForward, trans.position - pointerRay.ray.origin);
                 float rayDot = Vector3.Dot(transForward, pointerRay.ray.direction);
                 resultDistance = transDot / rayDot;
                 Vector3 hitPosition =
                     pointerRay.ray.origin + (pointerRay.ray.direction * resultDistance);
 
-                // Check to see if the go is behind the camera.
+                // Likod ng camera
                 if (resultDistance < 0 ||
                     resultDistance >= hitDistance ||
                     resultDistance > pointerRay.distance)
