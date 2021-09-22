@@ -79,9 +79,9 @@ public class GvrPointerGraphicRaycaster : GvrBasePointerRaycaster
 
         if (Physics.Raycast(ray, out _hit))
         {
-   
-                _hit.transform.gameObject.GetComponent<teleport>().spacemanTravel();
-            
+
+            _hit.transform.gameObject.GetComponent<teleport>().spacemanTravel();
+
         }
 
     }

@@ -6,6 +6,11 @@ public class teleport : MonoBehaviour
 {
     public GameObject player;
 
+
+
+
+
+
     public void spacemanTravel() {
         player.transform.position = new Vector3(transform.position.x, transform.position.y + 1.5f, transform.position.z);
     
