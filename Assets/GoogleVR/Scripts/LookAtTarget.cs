@@ -9,14 +9,14 @@ public class LookAtTarget : MonoBehaviour {
 	public float smooth = 5;
 
 	private bool isZoomed = false;
-	void Start () {
+	/*void Start () {
 		if (target == null) 
 		{
 			target = this.gameObject;
 			Debug.Log ("LookAtTarget target not specified. Defaulting to parent GameObject");
 		}
 	}
-	
+	*/
 	// Update is called once per frame
 	void Update () {
 		/*if (target)

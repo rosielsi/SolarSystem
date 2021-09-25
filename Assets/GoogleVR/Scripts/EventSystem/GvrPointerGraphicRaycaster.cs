@@ -46,12 +46,7 @@ public class GvrPointerGraphicRaycaster : GvrBasePointerRaycaster
     private List<Graphic> raycastResults = new List<Graphic>();
     private Camera cachedPointerEventCamera;
     /// Initializes a new instance of the <see cref="GvrPointerGraphicRaycaster" /> class.
-    private RaycastHit _hit;
-    public Image imagegaze;
-    public float toaltime = 2;
-    bool gvrstatus;
-    float gvrtimer;
-    public int distanceOfRay = 10;
+   
     protected GvrPointerGraphicRaycaster()
     {
     }
@@ -69,36 +64,8 @@ public class GvrPointerGraphicRaycaster : GvrBasePointerRaycaster
         All = 3,
     }
 
-    void Update()
-    {
 
-
-
-
-        Ray ray = Camera.main.ViewportPointToRay(new Vector3(.5f, .5f, 0f));
-
-        if (Physics.Raycast(ray, out _hit))
-        {
-
-            _hit.transform.gameObject.GetComponent<teleport>().spacemanTravel();
-
-        }
-
-    }
-    public void GRon()
-    {
-
-        gvrstatus = true;
-    }
-
-
-    public void GRoff()
-    {
-        gvrstatus = false;
-        gvrtimer = 0;
-        imagegaze.fillAmount = 0;
-    }
-
+ 
 
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage(
